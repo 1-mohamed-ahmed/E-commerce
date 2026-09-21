@@ -3,12 +3,12 @@ import { Mail, MapPinHouse, Phone } from "lucide-react";
 
 const Footer = () => {
   return (
-    <div className="bg-footer-color w-full overflow-hidden p-3 pt-5 sm:p-10">
-      <div className="max-w-7xl mx-auto">
+    <div className="bg-footer-color w-full overflow-hidden p-3 pt-5 sm:p-10 h-full">
+      <div className="max-w-full mx-auto">
         {/* TOP Footer */}
-        <div className="flex max-sm:flex-wrap gap-y-10 text-footer-text-color">
+        <div className="grid grid-cols-1 lg:grid-cols-4 sm:grid-cols-2 gap-y-10 text-footer-text-color">
           {/* First */}
-          <div className="w-full sm:w-60 sm:mr-10">
+          <div className="w-full sm:w-60 md:w-50 ">
             {/* Logo */}
             <Link to="/">
               <div className="flex items-center mb-4">
@@ -43,7 +43,7 @@ const Footer = () => {
           </div>
 
           {/* Second */}
-          <div className="w-full sm:w-40 sm:mr-10">
+          <div className="w-full sm:w-40">
             <h1 className="text-[16px] font-bold mb-5">SHOP</h1>
 
             {[
@@ -62,7 +62,7 @@ const Footer = () => {
           </div>
 
           {/* Third */}
-          <div className="w-full sm:w-40 sm:mr-10">
+          <div className="w-full sm:w-40 sm:mr-15">
             <h1 className="text-[18px] font-bold mb-5">Help</h1>
 
             {[
@@ -81,7 +81,7 @@ const Footer = () => {
           </div>
 
           {/* Fourth */}
-          <div className="w-full sm:w-60 sm:mr-10">
+          <div className="w-full sm:w-60 sm:mr-15">
             <h1 className="mb-5 font-bold text-[18px]">Contact</h1>
 
             {/* Address */}

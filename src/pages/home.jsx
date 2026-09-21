@@ -23,14 +23,13 @@ const categoryImages = [
 ];
 
 const Home = () => {
-  const { categories, products } = useContext(AppContext);
-
+  const { products, categories } = useContext(AppContext);
   return (
-    <div className="bg-white">
+    <div className="bg-white min-h-screen px-3 sm:px-15">
       {/* Hero */}
       <section
         id="top"
-        className="relative overflow-hidden bg-linear-to-br from-slate-50 to-white py-20 min-h-screen flex items-center"
+        className="relative overflow-hidden bg-linear-to-br from-slate-50 to-white py-20 flex items-center"
       >
         <div className="absolute inset-0 opacity-30">
           <div className="absolute top-20 left-1/4 w-96 h-96 bg-teal-100 rounded-full blur-3xl" />
@@ -171,7 +170,7 @@ const Home = () => {
       </section>
 
       {/* Categories */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <section className="w-full mx-auto pb-10 sm:pb-15 bg-white ">
         <div className="flex items-end justify-between mb-10">
           <div>
             <p className="text-sm text-primary font-medium uppercase tracking-wider mb-2">
@@ -192,7 +191,7 @@ const Home = () => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {categories.map((cat, index) => {
             if (index >= 4) {
               return;
@@ -224,7 +223,7 @@ const Home = () => {
       </section>
 
       {/* Featured Products */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <section className="w-full bg-white mx-auto">
         <div className="flex items-end justify-between mb-10">
           <div>
             <p className="text-sm text-primary font-medium uppercase tracking-wider mb-2">
@@ -257,6 +256,7 @@ const Home = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {products.map((p, index) => {
+            //to show 8 products
             if (index < 8) {
               return <ProductCard key={p.id} product={p} />;
             }
@@ -265,7 +265,7 @@ const Home = () => {
       </section>
 
       {/* Promo Banner */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <section className=" mx-auto px-4 sm:px-6 lg:px-8 py-10 bg-white">
         <div className="relative overflow-hidden rounded-3xl bg-linear-to-r from-footer-color  to-[#1e293b] text-white">
           <div className="absolute right-0 top-0 bottom-0 w-1/2 opacity-10">
             <div className="absolute inset-0 bg-linear-to-l from-primary" />
@@ -294,7 +294,7 @@ const Home = () => {
       </section>
 
       {/* New Arrivals */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <section className="w-full mx-auto py-10 bg-white">
         <div className="flex items-end justify-between mb-10">
           <div>
             <p className="text-sm text-primary font-medium uppercase tracking-wider mb-2">

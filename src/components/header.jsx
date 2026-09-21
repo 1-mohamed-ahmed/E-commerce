@@ -7,231 +7,407 @@ import {
   Search,
   Menu,
   X,
+  LogIn,
+  UserPlus,
 } from "lucide-react";
 
 import { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+
 import { AppContext } from "../context/appContext";
+
 const links = [
   {
     label: "Home",
     path: "/",
   },
   {
-    label: "Categories",
-    path: "/Categories",
+    label: "Shop",
+    path: "/shop",
   },
   {
-    label: "about",
+    label: "About",
     path: "/about",
   },
   {
-    label: "Blog",
-    path: "/Blog",
-  },
-  {
-    label: "contact",
+    label: "Contact",
     path: "/contact",
   },
 ];
 
 const Header = () => {
-  const { categories } = useContext(AppContext);
+  const { categories, favourite, cart } = useContext(AppContext);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // ================= PAGE =================
+
+  const isShopPage = location.pathname === "/shop";
+
+  // ================= STATE =================
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
+
+  // ================= CLOSE MENUS =================
+
+  const closeMenus = () => {
+    setOpenCategory(false);
+    setAccountOpen(false);
+    setMenuOpen(false);
+  };
 
   return (
     <>
-      {/* Top Banner */}
-      <div className="bg-primary text-center sm:text-xl text-white py-2 w-full tracking-wide">
-        <h1>Free shipping on orders over $75 - use code NOVA 10 for 10% off</h1>
+      {/* ================= TOP BANNER ================= */}
+
+      <div className="bg-primary px-4 py-2 text-center text-white">
+        <p className="text-xs font-medium tracking-wide sm:text-sm">
+          Free shipping on orders over $75 — use code{" "}
+          <span className="font-bold">NOVA10</span> for 10% off
+        </p>
       </div>
 
-      {/* Header */}
-      <nav className="sticky bg-white border-b border-slate-100 shadow-sm px-2 sm:px-15 py-4 top-0 left-0 right-0 z-50">
-        <div className="flex items-center justify-between mx-auto max-w-7xl">
-          {/* Logo */}
-          <Link
-            onClick={() => {
-              setOpenCategory(false);
-            }}
-            to={"/"}
-          >
-            <div className="flex ">
-              <span className="bg-primary hidden md:flex sm:flex sm:w-8 sm:h-8 mr-2 rounded-[9px] sm:text-[18px] text-white justify-center items-center">
-                N
-              </span>
+      {/* ================= HEADER ================= */}
 
-              <span className="font-bold text-[18px] sm:text-2xl">Nova</span>
+      <header className="sticky top-0 z-50 w-full border-b border-slate-100 bg-white/95 shadow-sm backdrop-blur-md">
+        <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-18 items-center justify-between gap-4">
+            {/* ================= LOGO ================= */}
 
-              <span className="text-primary text-[18px] font-bold sm:text-2xl">
-                SHOP
-              </span>
-            </div>
-          </Link>
+            <Link to="/" onClick={closeMenus} className="shrink-0">
+              <div className="flex items-center">
+                <span className="mr-2 flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-lg font-bold text-white shadow-sm">
+                  N
+                </span>
 
-          {/* Desktop Nav Links */}
-          <div className="hidden md:flex items-center gap-8 md:text-[18px] md:mx-4 ">
-            {links.map((link) => {
-              if (link.label === "Categories") {
-                return (
-                  <div className="relative" key={link.label}>
-                    <button
-                      onClick={() => {
-                        setOpenCategory(!openCategory);
-                      }}
-                      className={`cursor-pointer flex items-center hover:text-primary  transition-colors duration-200`}
-                    >
-                      {link.label}{" "}
-                      {openCategory ? (
-                        <ChevronUp size={18} />
-                      ) : (
-                        <ChevronDown size={18} />
+                <span className="text-xl font-extrabold tracking-tight text-footer-color sm:text-2xl">
+                  Nova
+                </span>
+
+                <span className="ml-1 text-xl font-extrabold tracking-tight text-primary sm:text-2xl">
+                  SHOP
+                </span>
+              </div>
+            </Link>
+
+            {/* ================= DESKTOP NAV ================= */}
+
+            <div className="hidden items-center gap-7 md:flex">
+              {links.map((link) => {
+                if (link.label === "Categories") {
+                  return (
+                    <div className="relative" key={link.label}>
+                      <button
+                        type="button"
+                        onClick={() => setOpenCategory((prev) => !prev)}
+                        className="flex items-center gap-1.5 text-sm font-medium text-slate-700 transition-colors hover:text-primary"
+                      >
+                        Categories
+                        {openCategory ? (
+                          <ChevronUp size={16} />
+                        ) : (
+                          <ChevronDown size={16} />
+                        )}
+                      </button>
+
+                      {/* CATEGORY DROPDOWN */}
+
+                      {openCategory && (
+                        <div className="absolute left-1/2 top-full mt-4 w-64 -translate-x-1/2 overflow-hidden rounded-2xl border border-slate-100 bg-white p-2 shadow-xl">
+                          <div className="mb-1 px-3 py-2">
+                            <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                              Browse Categories
+                            </p>
+                          </div>
+
+                          <div className="max-h-72 overflow-y-auto">
+                            {categories.map((cat) => (
+                              <Link
+                                key={cat.slug}
+                                to={`/category/${cat.slug}`}
+                                onClick={closeMenus}
+                                className="block rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-primary/10 hover:text-primary"
+                              >
+                                {cat.name}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
                       )}
-                    </button>
-                    {openCategory && (
-                      <div className="absolute max-h-60 overflow-auto top-full left-0 mt-3 w-55 bg-white rounded-xl shadow-lg border border-slate-100 p-2">
-                        {categories.map((cat) => {
-                          return (
-                            <Link
-                              onClick={() => {
-                                setOpenCategory(false);
-                              }}
-                              to={cat.slug}
-                              key={cat.slug}
-                              className="p-2 block hover:bg-primary-hover"
-                            >
-                              {cat.name}
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                );
-              } else {
+                    </div>
+                  );
+                }
+
                 return (
                   <Link
-                    onClick={() => {
-                      setOpenCategory(false);
-                    }}
-                    className="cursor-pointer hover:text-primary  transition-colors duration-200"
                     key={link.label}
                     to={link.path}
+                    onClick={closeMenus}
+                    className={`text-sm font-medium transition-colors ${
+                      location.pathname === link.path
+                        ? "text-primary"
+                        : "text-slate-700 hover:text-primary"
+                    }`}
                   >
                     {link.label}
                   </Link>
                 );
-              }
-            })}
+              })}
+            </div>
+
+            {/* ================= SEARCH ================= */}
+
+            {!isShopPage && (
+              <div className="hidden min-w-0 flex-1 lg:flex lg:max-w-xs">
+                <div
+                  onClick={() => navigate("/shop")}
+                  className="flex w-full cursor-text items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 transition-all hover:border-primary/40 hover:bg-white focus-within:border-primary focus-within:bg-white focus-within:ring-4 focus-within:ring-primary/10"
+                >
+                  <Search size={18} className="shrink-0 text-slate-400" />
+
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    readOnly
+                    className="w-full cursor-pointer bg-transparent text-sm text-footer-color outline-none placeholder:text-slate-400"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* ================= ACTIONS ================= */}
+
+            <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+              {/* MOBILE SEARCH */}
+
+              <button
+                type="button"
+                onClick={() => navigate("/shop")}
+                className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-600 transition-all hover:bg-primary/10 hover:text-primary lg:hidden"
+              >
+                <Search size={20} />
+              </button>
+
+              {/* ================= WISHLIST ================= */}
+
+              <Link
+                to="/wishlist"
+                onClick={closeMenus}
+                className="relative flex h-10 w-10 items-center justify-center rounded-xl text-slate-600 transition-all hover:bg-primary/10 hover:text-primary"
+              >
+                <Heart size={20} />
+
+                {favourite?.length > 0 && (
+                  <span className="absolute right-0 top-0 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-white">
+                    {favourite.length}
+                  </span>
+                )}
+              </Link>
+
+              {/* ================= CART ================= */}
+
+              <Link
+                to="/cart"
+                onClick={closeMenus}
+                className="relative flex h-10 w-10 items-center justify-center rounded-xl text-slate-600 transition-all hover:bg-primary/10 hover:text-primary"
+              >
+                <ShoppingCart size={20} />
+
+                {cart?.length > 0 && (
+                  <span className="absolute right-0 top-0 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-white">
+                    {cart.length}
+                  </span>
+                )}
+              </Link>
+
+              {/* ================= ACCOUNT ================= */}
+
+              <div className="relative hidden sm:block">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAccountOpen((prev) => !prev);
+                    setOpenCategory(false);
+                  }}
+                  className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-primary-hover hover:shadow-md"
+                >
+                  <UserRound size={18} />
+
+                  <span>Account</span>
+
+                  {accountOpen ? (
+                    <ChevronUp size={16} />
+                  ) : (
+                    <ChevronDown size={16} />
+                  )}
+                </button>
+
+                {/* ACCOUNT DROPDOWN */}
+
+                {accountOpen && (
+                  <div className="absolute right-0 top-full mt-3 w-60 overflow-hidden rounded-2xl border border-slate-100 bg-white p-2 shadow-xl">
+                    {/* HEADER */}
+
+                    <div className="border-b border-slate-100 px-3 py-3">
+                      <p className="text-sm font-bold text-footer-color">
+                        Welcome to Nova
+                      </p>
+
+                      <p className="mt-1 text-xs text-slate-400">
+                        Sign in or create your account
+                      </p>
+                    </div>
+
+                    {/* SIGN IN */}
+
+                    <Link
+                      to="/login"
+                      onClick={closeMenus}
+                      className="mt-2 flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition-all hover:bg-primary/10 hover:text-primary"
+                    >
+                      <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                        <LogIn size={18} />
+                      </span>
+
+                      <div>
+                        <p className="font-semibold">Sign In</p>
+
+                        <p className="text-xs text-slate-400">
+                          Login to your account
+                        </p>
+                      </div>
+                    </Link>
+
+                    {/* CREATE ACCOUNT */}
+
+                    <Link
+                      to="/register"
+                      onClick={closeMenus}
+                      className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition-all hover:bg-primary/10 hover:text-primary"
+                    >
+                      <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                        <UserPlus size={18} />
+                      </span>
+
+                      <div>
+                        <p className="font-semibold">Create Account</p>
+
+                        <p className="text-xs text-slate-400">
+                          Create a new account
+                        </p>
+                      </div>
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* ================= MOBILE MENU ================= */}
+
+              <button
+                type="button"
+                onClick={() => {
+                  setMenuOpen((prev) => !prev);
+                  setOpenCategory(false);
+                  setAccountOpen(false);
+                }}
+                className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-700 transition-all hover:bg-slate-100 sm:hidden"
+              >
+                {menuOpen ? <X size={22} /> : <Menu size={22} />}
+              </button>
+            </div>
           </div>
-          {/* Search bar - desktop */}
+
+          {/* ================= MOBILE MENU ================= */}
 
           <div
-            onClick={() => {
-              setOpenCategory(false);
-            }}
-            className="hidden lg:flex items-center gap-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 w-64 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition-all"
+            className={`overflow-hidden transition-all duration-300 ease-in-out md:hidden ${
+              menuOpen
+                ? "max-h-150 border-t border-slate-100 opacity-100"
+                : "pointer-events-none max-h-0 opacity-0"
+            }`}
           >
-            <svg
-              className="w-4 h-4 text-slate-400 shrink-0"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-            <input
-              onClick={() => {
-                setOpenCategory(false);
-              }}
-              type="text"
-              placeholder="Search products..."
-              className="bg-transparent text-sm text-[#0f172a] placeholder-slate-400 outline-none w-full ml-2"
-            />
-          </div>
-          {/* Icosn */}
+            <div className="space-y-1 px-1 py-4">
+              {/* NAV LINKS */}
 
-          <div className="flex items-center gap-1 w-60 justify-evenly">
-            <button
-              onClick={() => {
-                setOpenCategory(false);
-              }}
-              className="hover:text-primary flex lg:hidden hover:scale-110 transition-all duration-300"
-            >
-              <Search size={20} />
-            </button>
-            <button
-              onClick={() => {
-                setOpenCategory(false);
-              }}
-              className="hover:text-primary   hover:scale-110 transition-all duration-300"
-            >
-              <Heart size={20} />
-            </button>
-            <button
-              onClick={() => {
-                setOpenCategory(false);
-              }}
-              className="hover:text-primary  hover:scale-110 transition-all duration-300"
-            >
-              <ShoppingCart size={20} />
-            </button>
-            <button
-              onClick={() => {
-                setOpenCategory(false);
-              }}
-              className="bg-primary hidden sm:flex px-3 py-2 gap-2 text-white items-center rounded-2xl hover:bg-primary-hover hover:scale-90 transition-all duration-300"
-            >
-              <UserRound size={20} strokeWidth={2.25} />
-              <span>sign in</span>
-            </button>
+              {links.map((link) => (
+                <Link
+                  key={link.label}
+                  to={link.path}
+                  onClick={closeMenus}
+                  className={`block rounded-xl px-4 py-3 text-base font-medium transition-all ${
+                    location.pathname === link.path
+                      ? "bg-primary text-white"
+                      : "text-slate-700 hover:bg-primary hover:text-white"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
 
-            <button
-              onClick={() => {
-                setMenuOpen(!menuOpen);
-                setOpenCategory(false);
-              }}
-              className=" sm:hidden px-3 py-2 gap-2 text-white text-[17px] items-center rounded-2xl hover:scale-110 transition-all duration-300 "
-            >
-              {menuOpen ? <X color={"black"} /> : <Menu color={"black"} />}
-            </button>
-          </div>
-        </div>
-        {/* Mobile Menu */}
-        <div
-          onClick={() => {
-            setOpenCategory(false);
-          }}
-          className={`md:hidden overflow-hidden border-t border-slate-100 bg-white transition-all duration-300 ease-in-out ${
-            menuOpen
-              ? "max-h-125 opacity-100 translate-y-0"
-              : "max-h-0 opacity-0 -translate-y-2 pointer-events-none"
-          }`}
-        >
-          <div className="px-4 py-4 space-y-1">
-            {links.map((link) => (
-              <Link
-                key={link.label}
-                to={link.path}
-                onClick={() => setMenuOpen(false)}
-                className="block hover:bg-primary hover:text-white w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
+              {/* ================= MOBILE ACCOUNT ================= */}
 
-            <button className="w-full mt-2 px-4 py-3 bg-primary text-white text-sm font-medium rounded-xl hover:bg-primary-hover transition-colors">
-              Sign In
-            </button>
+              <div className="mt-3 border-t border-slate-100 pt-3">
+                {/* WISHLIST */}
+
+                <Link
+                  to="/wishlist"
+                  onClick={closeMenus}
+                  className="flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium text-slate-700 transition-colors hover:bg-slate-50"
+                >
+                  <Heart size={19} />
+                  Wishlist
+                  {favourite?.length > 0 && (
+                    <span className="ml-auto rounded-full bg-primary px-2 py-0.5 text-xs font-bold text-white">
+                      {favourite.length}
+                    </span>
+                  )}
+                </Link>
+
+                {/* CART */}
+
+                <Link
+                  to="/cart"
+                  onClick={closeMenus}
+                  className="flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium text-slate-700 transition-colors hover:bg-slate-50"
+                >
+                  <ShoppingCart size={19} />
+                  Cart
+                  {cart?.length > 0 && (
+                    <span className="ml-auto rounded-full bg-primary px-2 py-0.5 text-xs font-bold text-white">
+                      {cart.length}
+                    </span>
+                  )}
+                </Link>
+
+                {/* SIGN IN */}
+
+                <Link
+                  to="/login"
+                  onClick={closeMenus}
+                  className="mt-2 flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium text-slate-700 transition-colors hover:bg-primary/10 hover:text-primary"
+                >
+                  <LogIn size={19} />
+                  Sign In
+                </Link>
+
+                {/* CREATE ACCOUNT */}
+
+                <Link
+                  to="/register"
+                  onClick={closeMenus}
+                  className="mt-1 flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium text-slate-700 transition-colors hover:bg-primary/10 hover:text-primary"
+                >
+                  <UserPlus size={19} />
+                  Create Account
+                </Link>
+              </div>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </header>
     </>
   );
 };
