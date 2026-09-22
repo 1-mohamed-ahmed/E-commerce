@@ -11,22 +11,24 @@ import Favourites from "./pages/favourites";
 import About from "./pages/about";
 import Contact from "./pages/contactUs";
 import Login from "./pages/login";
+import Register from "./pages/register";
+import NotFound from "./pages/notFoundPage";
+import ProductDetails from "./pages/productDetail";
 
 // ============== LIBRARIES ================
 import { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
-import Register from "./pages/register";
 
 function App() {
   const [loading, setLoading] = useState(true);
 
   const location = useLocation();
 
-  // ================= AUTH PAGES =================
-
   const isAuthPage =
     location.pathname === "/login" || location.pathname === "/register";
+
+  const isNotFound = location.pathname === "8";
 
   // ================= SPLASH =================
 
@@ -82,16 +84,21 @@ function App() {
 
               <Route path="/contact" element={<Contact />} />
 
+              <Route path="/productDetails/:id" element={<ProductDetails />} />
+
               {/* AUTH */}
 
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+
+              {/* NOT FOUND PAGE */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
 
           {/* ================= FOOTER ================= */}
 
-          {!isAuthPage && <Footer />}
+          {!isAuthPage || !isNotFound ? <Footer /> : <></>}
         </motion.div>
       )}
     </div>

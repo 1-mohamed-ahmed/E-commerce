@@ -1,18 +1,11 @@
 import { useContext, useMemo, useState } from "react";
 import { AppContext } from "../context/appContext";
 
-import {
-  Search,
-  SlidersHorizontal,
-  ShoppingCart,
-  Heart,
-  ArrowUpDown,
-  X,
-} from "lucide-react";
+import { Search, SlidersHorizontal, ArrowUpDown, X } from "lucide-react";
+import ProductCard from "../components/productCard";
 
 const Shop = () => {
-  const { products, favourite, dispatch, homeDispatch, categories } =
-    useContext(AppContext);
+  const { products, homeDispatch, categories } = useContext(AppContext);
 
   // ================= STATE =================
 
@@ -54,37 +47,6 @@ const Shop = () => {
 
     return result;
   }, [products, search, sort]);
-
-  // ================= ADD TO CART =================
-
-  const handleAddToCart = (product) => {
-    dispatch({
-      type: "addToCart",
-      payload: product,
-    });
-  };
-
-  // ================= FAVOURITE =================
-
-  const isFavourite = (productId) => {
-    return favourite.some((item) => item.id === productId);
-  };
-
-  const handleFavourite = (product) => {
-    if (isFavourite(product.id)) {
-      dispatch({
-        type: "removeFromFavourite",
-        payload: product.id,
-      });
-
-      return;
-    }
-
-    dispatch({
-      type: "addToFavourite",
-      payload: product,
-    });
-  };
 
   // ================= CLEAR FILTERS =================
 
@@ -248,114 +210,7 @@ const Shop = () => {
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredProducts.map((product) => (
-              <article
-                key={product.id}
-                className="group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-              >
-                {/* ================= IMAGE ================= */}
-
-                <div className="relative flex h-64 items-center justify-center overflow-hidden bg-slate-100">
-                  <img
-                    src={product.thumbnail}
-                    alt={product.title}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-
-                  {/* Discount */}
-
-                  {product.discountPercentage > 0 && (
-                    <span className="absolute left-3 top-3 rounded-full bg-primary px-3 py-1 text-xs font-bold text-white">
-                      -{Math.round(product.discountPercentage)}%
-                    </span>
-                  )}
-
-                  {/* Favourite */}
-
-                  <button
-                    type="button"
-                    onClick={() => handleFavourite(product)}
-                    aria-label={
-                      isFavourite(product.id)
-                        ? "Remove from favourites"
-                        : "Add to favourites"
-                    }
-                    className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-slate-500 shadow-md backdrop-blur-sm transition-all duration-200 hover:bg-white hover:text-red-500"
-                  >
-                    <Heart
-                      size={18}
-                      className={
-                        isFavourite(product.id)
-                          ? "fill-red-500 text-red-500"
-                          : ""
-                      }
-                    />
-                  </button>
-                </div>
-
-                {/* ================= CONTENT ================= */}
-
-                <div className="p-5">
-                  {/* Category */}
-
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-primary">
-                    {product.category}
-                  </p>
-
-                  {/* Title */}
-
-                  <h2 className="line-clamp-1 text-lg font-semibold text-footer-color">
-                    {product.title}
-                  </h2>
-
-                  {/* Description */}
-
-                  <p className="mt-2 line-clamp-2 min-h-12 text-sm leading-6 text-slate-500">
-                    {product.description}
-                  </p>
-
-                  {/* Rating */}
-
-                  <div className="mt-3 flex items-center gap-2">
-                    <span className="text-sm font-semibold text-slate-700">
-                      ★ {product.rating}
-                    </span>
-
-                    <span className="text-xs text-slate-400">
-                      ({product.stock} in stock)
-                    </span>
-                  </div>
-
-                  {/* Price */}
-
-                  <div className="mt-4 flex items-center gap-2">
-                    <span className="text-xl font-bold text-footer-color">
-                      ${product.price}
-                    </span>
-
-                    {product.discountPercentage > 0 && (
-                      <span className="text-sm text-slate-400 line-through">
-                        $
-                        {(
-                          product.price /
-                          (1 - product.discountPercentage / 100)
-                        ).toFixed(2)}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Add To Cart */}
-
-                  <button
-                    type="button"
-                    onClick={() => handleAddToCart(product)}
-                    className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-footer-color px-4 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-primary active:scale-[0.98]"
-                  >
-                    <ShoppingCart size={18} />
-                    Add to Cart
-                  </button>
-                </div>
-              </article>
+              <ProductCard product={product} />
             ))}
           </div>
         )}

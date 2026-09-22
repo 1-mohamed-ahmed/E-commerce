@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Heart, Plus, ShoppingBag } from "lucide-react";
 import StarRating from "./starRating";
 import { AppContext } from "../context/appContext";
+import { Link } from "react-router-dom";
 
 export default function ProductCard({ product }) {
   const { favourite, cart, dispatch } = useContext(AppContext);
@@ -19,15 +20,17 @@ export default function ProductCard({ product }) {
   const reviewsCount = product.reviews?.length || 0;
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <article className="group cursor-pointer flex h-full flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       {/* ================= IMAGE ================= */}
       <div className="relative aspect-square overflow-hidden bg-slate-50">
-        <img
-          src={product.thumbnail}
-          alt={product.title}
-          loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
+        <Link to={`/productDetails/${product.id}`}>
+          <img
+            src={product.thumbnail}
+            alt={product.title}
+            loading="lazy"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        </Link>
 
         {/* Gradient overlay */}
         <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/10 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />

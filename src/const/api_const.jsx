@@ -8,6 +8,9 @@ const ApiConst = {
     // Get single Product
 
     singleProduct: "https://dummyjson.com/products/{id}",
+
+    // Auth
+    login: "https://dummyjson.com/auth/login",
   },
 };
 

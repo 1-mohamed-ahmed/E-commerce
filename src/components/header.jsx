@@ -349,45 +349,13 @@ const Header = () => {
 
               {/* ================= MOBILE ACCOUNT ================= */}
 
-              <div className="mt-3 border-t border-slate-100 pt-3">
-                {/* WISHLIST */}
-
-                <Link
-                  to="/wishlist"
-                  onClick={closeMenus}
-                  className="flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium text-slate-700 transition-colors hover:bg-slate-50"
-                >
-                  <Heart size={19} />
-                  Wishlist
-                  {favourite?.length > 0 && (
-                    <span className="ml-auto rounded-full bg-primary px-2 py-0.5 text-xs font-bold text-white">
-                      {favourite.length}
-                    </span>
-                  )}
-                </Link>
-
-                {/* CART */}
-
-                <Link
-                  to="/cart"
-                  onClick={closeMenus}
-                  className="flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium text-slate-700 transition-colors hover:bg-slate-50"
-                >
-                  <ShoppingCart size={19} />
-                  Cart
-                  {cart?.length > 0 && (
-                    <span className="ml-auto rounded-full bg-primary px-2 py-0.5 text-xs font-bold text-white">
-                      {cart.length}
-                    </span>
-                  )}
-                </Link>
-
+              <div className="mt-3 border-t border-slate-100 ">
                 {/* SIGN IN */}
 
                 <Link
                   to="/login"
                   onClick={closeMenus}
-                  className="mt-2 flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium text-slate-700 transition-colors hover:bg-primary/10 hover:text-primary"
+                  className=" flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium text-slate-700 transition-colors hover:bg-primary/10 hover:text-primary"
                 >
                   <LogIn size={19} />
                   Sign In

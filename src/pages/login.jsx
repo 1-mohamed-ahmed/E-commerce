@@ -62,12 +62,8 @@ const Login = () => {
           }}
           className="relative hidden overflow-hidden bg-primary p-10 lg:flex lg:min-h-145 lg:flex-col lg:justify-between"
         >
-          {/* Background decorations */}
-
           <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
-
           <div className="absolute -bottom-32 -left-20 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
-
           <div className="absolute right-10 top-1/2 h-32 w-32 rounded-full border border-white/10" />
 
           {/* Logo */}
@@ -256,7 +252,6 @@ const Login = () => {
                   <span className="text-sm text-slate-500">Remember me</span>
                 </label>
               </div>
-
               {/* SUBMIT */}
 
               <motion.button
@@ -270,9 +265,7 @@ const Login = () => {
                 <ArrowRight size={18} />
               </motion.button>
             </form>
-
             {/* ================= DIVIDER ================= */}
-
             <div className="my-7 flex items-center gap-4">
               <div className="h-px flex-1 bg-slate-100" />
 
@@ -285,7 +278,6 @@ const Login = () => {
 
             <div className="text-center">
               <p className="text-sm text-slate-500">Don't have an account?</p>
-
               <Link
                 to="/register"
                 className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-primary transition-colors hover:text-primary-hover"
@@ -293,18 +285,6 @@ const Login = () => {
                 Create a new account
                 <ArrowRight size={15} />
               </Link>
-            </div>
-
-            {/* BACK HOME */}
-
-            <div className="mt-8 text-center">
-              <button
-                type="button"
-                onClick={() => navigate("/")}
-                className="text-xs font-medium text-slate-400 transition-colors hover:text-primary"
-              >
-                ← Back to Nova SHOP
-              </button>
             </div>
           </div>
         </motion.div>
