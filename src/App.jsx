@@ -28,7 +28,7 @@ function App() {
   const isAuthPage =
     location.pathname === "/login" || location.pathname === "/register";
 
-  const isNotFound = location.pathname === "8";
+  // const isNotFound = location.pathname === "*";
 
   // ================= SPLASH =================
 
@@ -98,7 +98,7 @@ function App() {
 
           {/* ================= FOOTER ================= */}
 
-          {!isAuthPage || !isNotFound ? <Footer /> : <></>}
+          {!isAuthPage ? <Footer /> : <></>}
         </motion.div>
       )}
     </div>

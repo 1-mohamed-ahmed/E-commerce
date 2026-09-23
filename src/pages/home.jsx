@@ -182,7 +182,7 @@ const Home = () => {
           </div>
 
           <Link
-            to={"blog"}
+            to={"/shop"}
             className="hidden sm:flex items-center gap-2 text-primary font-medium
           hover:gap-3 transition-all text-sm"
           >
@@ -233,25 +233,24 @@ const Home = () => {
               Featured Products
             </h2>
           </div>
-          <button
-            // onClick={() => navigate("shop")}
-            className="hidden sm:flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all text-sm"
-          >
-            View All
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 8l4 4m0 0l-4 4m4-4H3"
-              />
-            </svg>
-          </button>
+          <Link to={"/shop"}>
+            <button className="hidden sm:flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all text-sm">
+              View All
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">

@@ -88,7 +88,7 @@ const Footer = () => {
             <div className="flex gap-5 mb-3">
               <MapPinHouse className="shrink-0" />
 
-              <p>123 Nova Street, San Francisco, CA 94103</p>
+              <p>The shop address</p>
             </div>
 
             {/* Email */}
